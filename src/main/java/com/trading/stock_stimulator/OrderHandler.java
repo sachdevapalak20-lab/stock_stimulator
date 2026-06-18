@@ -39,12 +39,11 @@ public class OrderHandler {
             }
 
             // Validate type
-            if (!type.equals("BUY") && !type.equals("SELL")) {
+            if (type == null || (!type.equals("BUY") && !type.equals("SELL"))) {
                 response.put("success", false);
                 response.put("message", "Type must be BUY or SELL");
                 return response;
             }
-
             // Validate quantity
             if (quantity <= 0) {
                 response.put("success", false);
