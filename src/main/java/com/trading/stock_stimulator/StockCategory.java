@@ -18,6 +18,13 @@ public class StockCategory {
     }
 
     public static String getCategory(String symbol) {
+
+        if (symbol == null || symbol.trim().isEmpty()) {
+            return "OTHER";
+        }
+
+        symbol = symbol.toUpperCase();
+
         for (Map.Entry<String, List<String>> entry : CATEGORIES.entrySet()) {
             if (entry.getValue().contains(symbol)) {
                 return entry.getKey();
