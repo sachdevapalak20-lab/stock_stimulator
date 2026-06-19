@@ -101,8 +101,14 @@ public class PriceSimulator {
     }
 
     // Get price history for one stock
+    // Get price history for one stock
     public List<Double> getPriceHistory(String symbol) {
-        return priceHistory.getOrDefault(symbol, new ArrayList<>());
+
+        if (symbol == null || symbol.trim().isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        return priceHistory.getOrDefault(symbol.toUpperCase(), new ArrayList<>());
     }
 
     // Get all price histories
