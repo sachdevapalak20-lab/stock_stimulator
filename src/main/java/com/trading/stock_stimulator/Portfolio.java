@@ -61,6 +61,12 @@ public class Portfolio {
 
         // Add to balance
         double totalValue = quantity * price;
+        // Validate stock price
+        if (price <= 0) {
+            result.put("success", false);
+            result.put("message", "Invalid stock price");
+            return result;
+        }
         balance += totalValue;
 
         // Remove from holdings
