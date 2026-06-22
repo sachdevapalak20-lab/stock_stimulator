@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockSim — Dashboard</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Animate.css -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/dashboard.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Alert Container -->
+    <div id="alertContainer"
+        class="position-fixed top-0 end-0 p-3"
+        style="z-index:9999">
+    </div>
+
+    <!-- Navbar -->
+    <div id="navbar"></div>
+
+    <!-- Portfolio Bar -->
+    <div id="portfolioBar"></div>
+
+    <!-- Main Content -->
+    <div class="container py-4">
+
+        <!-- Page Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 style="font-size:1.8rem; font-weight:700;">
+                    Live Market
+                    <span class="live-badge ms-2">LIVE</span>
+                </h1>
+                <p style="color:var(--text-secondary); margin:0;">
+                    Prices update every second
+                </p>
+            </div>
+
+            <!-- Category Filter -->
+            <div class="d-flex gap-2 flex-wrap">
+                <button class="filter-btn active"
+                    onclick="filterStocks('ALL')">
+                    All
+                </button>
+                <button class="filter-btn"
+                    onclick="filterStocks('TECH')">
+                    Tech
+                </button>
+                <button class="filter-btn"
+                    onclick="filterStocks('INDIAN')">
+                    Indian
+                </button>
+                <button class="filter-btn"
+                    onclick="filterStocks('EV')">
+                    EV
+                </button>
+                <button class="filter-btn"
+                    onclick="filterStocks('STREAM')">
+                    Stream
+                </button>
+                <button class="filter-btn"
+                    onclick="filterStocks('ECOMM')">
+                    E-Comm
+                </button>
+            </div>
+        </div>
+
+        <!-- Connection Status -->
+        <div id="connectionStatus"
+            class="alert alert-warning d-none mb-4">
+            <i class="bi bi-wifi-off"></i>
+            Connecting to market...
+        </div>
+
+        <!-- Stock Grid -->
+        <div class="row g-3" id="stockGrid">
+            <!-- Stocks loaded dynamically -->
+            <div class="col-12 text-center py-5">
+                <div class="spinner-border text-primary"></div>
+                <p class="mt-3" style="color:var(--text-secondary)">
+                    Connecting to market...
+                </p>
+            </div>
+        </div>
+
+        <!-- Market Summary -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <h5 style="font-weight:700; margin-bottom:16px;">
+                    Market Summary
+                </h5>
+            </div>
+
+            <!-- Total Stocks -->
+            <div class="col-md-3 col-6 mb-3">
+                <div class="card p-3 text-center">
+                    <div style="font-size:2rem;">📊</div>
+                    <div style="font-size:1.5rem; font-weight:700;"
+                        id="totalStocks">0</div>
+                    <div style="color:var(--text-secondary);
+                                font-size:0.85rem;">
+                        Total Stocks
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gainers -->
+            <div class="col-md-3 col-6 mb-3">
+                <div class="card p-3 text-center">
+                    <div style="font-size:2rem;">📈</div>
+                    <div style="font-size:1.5rem;
+                                font-weight:700;
+                                color:var(--success);"
+                        id="gainers">0</div>
+                    <div style="color:var(--text-secondary);
+                                font-size:0.85rem;">
+                        Gainers
+                    </div>
+                </div>
+            </div>
+
+            <!-- Losers -->
+            <div class="col-md-3 col-6 mb-3">
+                <div class="card p-3 text-center">
+                    <div style="font-size:2rem;">📉</div>
+                    <div style="font-size:1.5rem;
+                                font-weight:700;
+                                color:var(--danger);"
+                        id="losers">0</div>
+                    <div style="color:var(--text-secondary);
+                                font-size:0.85rem;">
+                        Losers
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders Today -->
+            <div class="col-md-3 col-6 mb-3">
+                <div class="card p-3 text-center">
+                    <div style="font-size:2rem;">🛒</div>
+                    <div style="font-size:1.5rem; font-weight:700;"
+                        id="ordersToday">0</div>
+                    <div style="color:var(--text-secondary);
+                                font-size:0.85rem;">
+                        Orders Today
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div id="footer"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/websocket.js"></script>
+    <script src="js/dashboard.js"></script>
+
+    <script>
+        // Check login
+        Utils.requireLogin();
+
+        // Load navbar and footer
+        document.getElementById('navbar').innerHTML   = Components.navbar('dashboard');
+        document.getElementById('footer').innerHTML   = Components.footer();
+    </script>
+
+</body>
+</html>
