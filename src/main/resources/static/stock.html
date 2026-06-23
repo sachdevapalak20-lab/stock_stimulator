@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockSim — Stock Detail</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Animate.css -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/charts.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Alert Container -->
+    <div id="alertContainer"
+        class="position-fixed top-0 end-0 p-3"
+        style="z-index:9999">
+    </div>
+
+    <!-- Navbar -->
+    <div id="navbar"></div>
+
+    <!-- Portfolio Bar -->
+    <div id="portfolioBar"></div>
+
+    <!-- Main Content -->
+    <div class="container py-4">
+
+        <!-- Back Button -->
+        <button class="btn-back mb-4"
+            onclick="window.location.href='index.html'">
+            ← Back to Dashboard
+        </button>
+
+        <!-- Stock Header -->
+        <div class="stock-detail-header mb-4">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <div class="d-flex align-items-center gap-3 mb-1">
+                        <h1 class="stock-detail-symbol" id="stockSymbol">
+                            --
+                        </h1>
+                        <span class="category-badge"
+                            id="stockCategory">
+                        </span>
+                        <span class="live-badge">LIVE</span>
+                    </div>
+                    <div class="stock-detail-name"
+                        id="stockName">
+                        Loading...
+                    </div>
+                </div>
+
+                <div class="text-end">
+                    <div class="stock-detail-price"
+                        id="stockPrice">
+                        --
+                    </div>
+                    <div class="stock-detail-change"
+                        id="stockChange">
+                        --
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chart -->
+        <div class="card p-4 mb-4">
+            <div class="d-flex justify-content-between
+                        align-items-center mb-3">
+                <h6 style="font-weight:700; margin:0;">
+                    Price History
+                </h6>
+                <span style="font-size:0.8rem;
+                             color:var(--text-secondary);">
+                    Last 20 updates
+                </span>
+            </div>
+            <div style="height: 300px;">
+                <canvas id="priceChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Stock Stats -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-3 col-6">
+                <div class="stat-card">
+                    <div class="stat-label">Current Price</div>
+                    <div class="stat-value"
+                        id="statCurrentPrice">--</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-card">
+                    <div class="stat-label">High (Session)</div>
+                    <div class="stat-value text-success"
+                        id="statHigh">--</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-card">
+                    <div class="stat-label">Low (Session)</div>
+                    <div class="stat-value text-danger"
+                        id="statLow">--</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-card">
+                    <div class="stat-label">Category</div>
+                    <div class="stat-value"
+                        id="statCategory">--</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Buttons -->
+        <div class="row g-3">
+            <div class="col-md-6">
+                <button class="btn-buy w-100 py-3"
+                    style="font-size:1.1rem; border-radius:12px;"
+                    id="buyBtn">
+                    ▲ BUY
+                </button>
+            </div>
+            <div class="col-md-6">
+                <button class="btn-sell w-100 py-3"
+                    style="font-size:1.1rem; border-radius:12px;"
+                    id="sellBtn">
+                    ▼ SELL
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div id="footer"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/websocket.js"></script>
+    <script src="js/stock.js"></script>
+
+    <script>
+        // Check login
+        Utils.requireLogin();
+
+        // Load navbar and footer
+        document.getElementById('navbar').innerHTML = Components.navbar('dashboard');
+        document.getElementById('footer').innerHTML = Components.footer();
+    </script>
+
+</body>
+</html>
