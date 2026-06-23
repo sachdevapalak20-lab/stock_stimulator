@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockSim — Place Order</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Animate.css -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <style>
+        .order-card {
+            max-width:     550px;
+            margin:        0 auto;
+            background:    var(--bg-card);
+            border:        1px solid var(--border-color);
+            border-radius: 24px;
+            padding:       36px;
+            box-shadow:    var(--shadow);
+        }
+
+        .order-type-btn {
+            flex:          1;
+            padding:       12px;
+            border:        2px solid var(--border-color);
+            background:    var(--bg-secondary);
+            color:         var(--text-secondary);
+            font-weight:   700;
+            font-size:     1rem;
+            cursor:        pointer;
+            transition:    all 0.2s;
+        }
+
+        .order-type-btn:first-child {
+            border-radius: 12px 0 0 12px;
+        }
+
+        .order-type-btn:last-child {
+            border-radius: 0 12px 12px 0;
+        }
+
+        .order-type-btn.buy-active {
+            background:   var(--success);
+            color:        white;
+            border-color: var(--success);
+        }
+
+        .order-type-btn.sell-active {
+            background:   var(--danger);
+            color:        white;
+            border-color: var(--danger);
+        }
+
+        .price-display {
+            background:    var(--bg-secondary);
+            border:        1px solid var(--border-color);
+            border-radius: 12px;
+            padding:       16px 20px;
+            margin-bottom: 20px;
+        }
+
+        .price-display .label {
+            font-size:  0.8rem;
+            color:      var(--text-secondary);
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .price-display .value {
+            font-size:   1.8rem;
+            font-weight: 700;
+            color:       var(--text-primary);
+        }
+
+        .total-cost {
+            background:    var(--primary-light);
+            border:        1px solid var(--primary);
+            border-radius: 12px;
+            padding:       16px 20px;
+            margin-top:    16px;
+        }
+
+        .btn-place-order {
+            width:         100%;
+            padding:       14px;
+            border:        none;
+            border-radius: 12px;
+            font-size:     1.1rem;
+            font-weight:   700;
+            cursor:        pointer;
+            transition:    all 0.2s;
+            margin-top:    20px;
+        }
+
+        .btn-place-buy {
+            background: var(--success);
+            color:      white;
+        }
+
+        .btn-place-buy:hover {
+            background: #15803d;
+            transform:  translateY(-2px);
+        }
+
+        .btn-place-sell {
+            background: var(--danger);
+            color:      white;
+        }
+
+        .btn-place-sell:hover {
+            background: #b91c1c;
+            transform:  translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Alert Container -->
+    <div id="alertContainer"
+        class="position-fixed top-0 end-0 p-3"
+        style="z-index:9999">
+    </div>
+
+    <!-- Navbar -->
+    <div id="navbar"></div>
+
+    <!-- Portfolio Bar -->
+    <div id="portfolioBar"></div>
+
+    <!-- Main Content -->
+    <div class="container py-4">
+
+        <!-- Back Button -->
+        <button class="btn-back mb-4"
+            onclick="history.back()">
+            ← Back
+        </button>
+
+        <!-- Page Title -->
+        <div class="text-center mb-4">
+            <h2 style="font-weight:700;">Place Order</h2>
+            <p style="color:var(--text-secondary);">
+                Review price before submitting
+            </p>
+        </div>
+
+        <!-- Order Card -->
+        <div class="order-card animate__animated animate__fadeInUp">
+
+            <!-- Stock Info -->
+            <div class="d-flex justify-content-between
+                        align-items-center mb-4">
+                <div>
+                    <h3 id="orderSymbol"
+                        style="font-weight:700; margin:0;">
+                        --
+                    </h3>
+                    <div id="orderStockName"
+                        style="color:var(--text-secondary);
+                               font-size:0.9rem;">
+                    </div>
+                </div>
+                <span id="orderCategory" class="category-badge"></span>
+            </div>
+
+            <!-- Buy/Sell Toggle -->
+            <div class="d-flex mb-4">
+                <button class="order-type-btn"
+                    id="buyTypeBtn"
+                    onclick="setOrderType('BUY')">
+                    ▲ BUY
+                </button>
+                <button class="order-type-btn"
+                    id="sellTypeBtn"
+                    onclick="setOrderType('SELL')">
+                    ▼ SELL
+                </button>
+            </div>
+
+            <!-- Live Price -->
+            <div class="price-display">
+                <div class="label">Live Price</div>
+                <div class="d-flex align-items-center
+                            justify-content-between">
+                    <div class="value" id="livePrice">--</div>
+                    <span class="live-badge">LIVE</span>
+                </div>
+            </div>
+
+            <!-- Stale Price Warning -->
+            <div class="stale-warning mb-3" id="staleWarning">
+                ⚠️ Price may have changed since you opened this page
+            </div>
+
+            <!-- Quantity Input -->
+            <div class="mb-3">
+                <label class="form-label"
+                    style="font-weight:600;
+                           font-size:0.85rem;
+                           color:var(--text-secondary);
+                           text-transform:uppercase;">
+                    Quantity
+                </label>
+                <input type="number"
+                    class="form-control"
+                    id="quantity"
+                    placeholder="Enter quantity"
+                    min="1"
+                    max="1000"
+                    oninput="updateTotalCost()">
+            </div>
+
+            <!-- Total Cost -->
+            <div class="total-cost" id="totalCostBox"
+                style="display:none;">
+                <div class="d-flex justify-content-between">
+                    <span style="font-weight:600;">Total Cost</span>
+                    <span style="font-weight:700;
+                                 color:var(--primary);"
+                        id="totalCost">
+                        --
+                    </span>
+                </div>
+                <div class="d-flex justify-content-between mt-1">
+                    <span style="font-size:0.85rem;
+                                 color:var(--text-secondary);">
+                        Available Balance
+                    </span>
+                    <span style="font-size:0.85rem;
+                                 font-weight:600;"
+                        id="availableBalance">
+                        --
+                    </span>
+                </div>
+            </div>
+
+            <!-- Place Order Button -->
+            <button class="btn-place-order btn-place-buy"
+                id="placeOrderBtn"
+                onclick="placeOrder()">
+                ▲ Place BUY Order
+            </button>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div id="footer"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/websocket.js"></script>
+    <script src="js/order.js"></script>
+
+    <script>
+        Utils.requireLogin();
+        document.getElementById('navbar').innerHTML  = Components.navbar('dashboard');
+        document.getElementById('footer').innerHTML  = Components.footer();
+    </script>
+
+</body>
+</html>
