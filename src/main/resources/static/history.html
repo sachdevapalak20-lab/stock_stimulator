@@ -123,10 +123,24 @@ transform: translateY(-1px);
         }
 
         .btn-back:hover {
-            background:   #eff6ff;
-            color:        #2563eb;
-            border-color: #2563eb;
-        }
+background:   #eff6ff;
+color:        #2563eb;
+border-color: #2563eb;
+transform:    translateY(-1px);
+}
+
+.btn-back {
+background:    var(--bg-secondary);
+border:        1px solid var(--border-color);
+border-radius: 8px;
+padding:       8px 16px;
+font-size:     0.85rem;
+font-weight:   500;
+color:         var(--text-secondary);
+cursor:        pointer;
+transition:    all 0.3s ease;
+}
+
 
         .table th {
             color:          #6c757d;
