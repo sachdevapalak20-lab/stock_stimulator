@@ -10,7 +10,7 @@ function initHistoryPage() {
 }
 
 function loadOrders() {
-    fetch('wss://stockstimulator-production.up.railway.app/ws/api/orders/all')
+    fetch('https://stockstimulator-production.up.railway.app/api/orders/all')
         .then(res => res.json())
         .then(data => {
             console.log('Orders loaded:', data);
