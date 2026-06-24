@@ -64,16 +64,17 @@
         }
 
         .btn-login {
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            padding: 12px;
-            font-size: 1rem;
-            font-weight: 600;
-            width: 100%;
-            transition: all 0.2s;
-        }
+background: var(--primary);
+color: white;
+border: none;
+border-radius: 12px;
+padding: 12px;
+font-size: 1rem;
+font-weight: 600;
+width: 100%;
+transition: all 0.3s ease;
+}
+
 
         .btn-login:hover {
             background: #1d4ed8;
@@ -164,11 +165,12 @@
 
             <!-- Tabs -->
             <div class="d-flex mb-4">
-                <button class="tab-btn active"
-                    id="loginTab"
-                    onclick="switchTab('login')">
-                    Login
-                </button>
+                <button class="btn-login"
+                        type="button"
+                        aria-label="Login to account"
+                        onclick="handleLogin()">
+                    Login → </button>
+
                 <button class="tab-btn"
                     id="registerTab"
                     onclick="switchTab('register')">
@@ -192,8 +194,13 @@
                         id="loginPassword"
                         placeholder="Enter password">
                 </div>
-                <button class="btn-login" onclick="handleLogin()">
-                    Login →
+                <button class="btn-login"
+                        type="button"
+                        aria-label="Login to account"
+                        onclick="handleLogin()">
+                    Login → </button>
+
+                Login →
                 </button>
             </div>
 
