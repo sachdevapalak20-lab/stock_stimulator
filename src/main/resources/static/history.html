@@ -60,16 +60,21 @@
         }
 
         .filter-tab {
-            padding:       6px 16px;
-            border:        1px solid var(--border-color);
-            border-radius: 20px;
-            font-size:     0.85rem;
-            font-weight:   500;
-            color:         var(--text-secondary);
-            cursor:        pointer;
-            background:    var(--bg-secondary);
-            transition:    all 0.2s;
-        }
+padding:       6px 16px;
+border:        1px solid var(--border-color);
+border-radius: 20px;
+font-size:     0.85rem;
+font-weight:   500;
+color:         var(--text-secondary);
+cursor:        pointer;
+background:    var(--bg-secondary);
+transition:    all 0.3s ease;
+}
+
+.filter-tab:hover {
+transform: translateY(-1px);
+}
+
 
         .filter-tab.active {
             background:   #2563eb;
