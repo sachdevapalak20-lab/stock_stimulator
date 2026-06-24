@@ -10,7 +10,7 @@ function initHistoryPage() {
 }
 
 function loadOrders() {
-    fetch('http://localhost:8080/api/orders/all')
+    fetch('wss://stockstimulator-production.up.railway.app/ws/api/orders/all')
         .then(res => res.json())
         .then(data => {
             console.log('Orders loaded:', data);
@@ -125,7 +125,7 @@ function filterOrders(type, btn) {
 }
 
 function loadPortfolio() {
-    fetch('http://localhost:8080/api/portfolio/summary')
+    fetch('wss://stockstimulator-production.up.railway.app/ws/api/portfolio/summary')
         .then(res => res.json())
         .then(data => {
             const bar = document.getElementById('portfolioBar');
