@@ -219,7 +219,7 @@ function updateStats(price) {
 
 // Load portfolio
 function loadPortfolio() {
-    fetch('http://localhost:8080/api/portfolio/summary')
+    fetch('https://stockstimulator-production.up.railway.app/api/portfolio/summary')
         .then(res => res.json())
         .then(data => {
             const bar = document.getElementById('portfolioBar');
@@ -241,7 +241,7 @@ function loadPortfolio() {
 
 // Update portfolio bar
 function updatePortfolio() {
-    fetch('http://localhost:8080/api/portfolio/summary')
+    fetch('https://stockstimulator-production.up.railway.app/api/portfolio/summary')
         .then(res => res.json())
         .then(data => {
             const bar = document.getElementById('portfolioBar');
