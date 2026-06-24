@@ -30,7 +30,7 @@ function loadUserInfo() {
 
 // Load portfolio summary
 function loadPortfolio() {
-    fetch('wss://stockstimulator-production.up.railway.app/ws/api/portfolio/summary')
+    fetch('https://stockstimulator-production.up.railway.app/api/orders/all')
         .then(res => res.json())
         .then(data => {
             const currency = Utils.getCurrency();
