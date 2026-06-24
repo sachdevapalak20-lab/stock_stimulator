@@ -10,7 +10,10 @@
     font-weight:   500;
     color:         var(--text-secondary);
     cursor:        pointer;
-    transition:    all 0.2s;
+    transition: all 0.3s ease;
+    .btn-back:active {
+        transform: scale(0.98);
+    }
 }
 
 .btn-back:hover {
