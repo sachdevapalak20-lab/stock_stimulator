@@ -9,7 +9,7 @@ function initHistoryPage() {
 }
 
 function loadOrders() {
-    fetch('http://localhost:8080/api/orders/all')
+    fetch('http://localhost:8081/api/orders/all')
         .then(res => res.json())
         .then(data => {
             console.log('Orders loaded:', data);
@@ -110,7 +110,7 @@ function filterOrders(type) {
 }
 
 function loadPortfolio() {
-    fetch('http://localhost:8080/api/portfolio/summary')
+    fetch('http://localhost:8081/api/portfolio/summary')
         .then(res => res.json())
         .then(data => {
             const bar = document.getElementById('portfolioBar');
