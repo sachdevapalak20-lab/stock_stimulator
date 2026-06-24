@@ -72,7 +72,7 @@ function confirmOrder() {
     confirmBtn.textContent = 'Placing Order...';
     confirmBtn.disabled    = true;
 
-    fetch('http://localhost:8080/api/orders/place', {
+    fetch('https://stockstimulator-production.up.railway.app/api/orders/place', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body:    JSON.stringify({
@@ -119,7 +119,7 @@ function showSuccess(data) {
 }
 
 function loadPortfolio() {
-    fetch('http://localhost:8080/api/portfolio/summary')
+    fetch('https://stockstimulator-production.up.railway.app/api/portfolio/summary')
         .then(res => res.json())
         .then(data => {
             const bar = document.getElementById('portfolioBar');
