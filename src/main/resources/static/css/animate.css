@@ -17,7 +17,7 @@
 /* Price number up */
 @keyframes priceUp {
     0%   { transform: translateY(0);    color: inherit; }
-   50%  { transform: translateY(-6px); color: #16a34a; }
+    50%  { transform: translateY(-6px); color: #16a34a; }
     100% { transform: translateY(0);    color: #16a34a; }
 }
 
@@ -56,20 +56,20 @@
 /* Bounce in */
 @keyframes bounceIn {
     0%   { transform: scale(0.5); opacity: 0; }
-    70%  { transform: scale(1.1);             }
-    100% { transform: scale(1);   opacity: 1; }
+    70%  { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
 }
 
 /* Pulse glow */
 @keyframes pulseGlow {
     0%   { box-shadow: 0 0 0 0 rgba(37,99,235,0.4); }
     70%  { box-shadow: 0 0 0 8px rgba(37,99,235,0); }
-    100% { box-shadow: 0 0 0 0 rgba(37,99,235,0);   }
+    100% { box-shadow: 0 0 0 0 rgba(37,99,235,0); }
 }
 
 /* Spin */
 @keyframes spin {
-    0%   { transform: rotate(0deg);   }
+    0%   { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
 
@@ -140,7 +140,7 @@
 }
 
 .hover-lift:hover {
-transform: translateY(-6px);
+    transform: translateY(-6px);
     box-shadow: 0 8px 30px rgba(0,0,0,0.15);
 }
 
@@ -157,6 +157,7 @@ transform: translateY(-6px);
 .page-load-5 { animation: fadeInUp 0.5s ease 0.5s both; }
 
 /* ===== LIVE PULSE ===== */
+
 .live-pulse {
     animation: pulseGlow 2s infinite;
 }
@@ -166,3 +167,5 @@ transform: translateY(-6px);
 .success-pop {
     animation: bounceIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
+
+/* Animation refinement update */
