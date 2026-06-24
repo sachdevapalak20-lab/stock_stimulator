@@ -230,7 +230,7 @@ function updateTickerTape(prices) {
 
 // Load portfolio data
 function loadPortfolio() {
-    fetch('http://localhost:8081/api/portfolio/summary')
+    fetch('http://localhost:8080/api/portfolio/summary')
         .then(res => res.json())
         .then(data => {
             const bar = document.getElementById('portfolioBar');
@@ -252,7 +252,7 @@ function loadPortfolio() {
 
 // Load orders count
 function loadOrdersCount() {
-    fetch('http://localhost:8081/api/orders/all')
+    fetch('http://localhost:8080/api/orders/all')
         .then(res => res.json())
         .then(data => {
             document.getElementById('ordersToday').textContent = data.length;
