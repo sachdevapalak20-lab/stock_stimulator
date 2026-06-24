@@ -2,35 +2,33 @@
 
 let pendingOrder = null;
 
-// Initialize confirm page
 function initConfirmPage() {
-    // Get pending order from local storage
-    pendingOrder = Utils.getLocal('pendingOrder');
+    // Direct localStorage read
+    try {
+        const raw = localStorage.getItem('pendingOrder');
+        console.log('Raw order data:', raw);
+        pendingOrder = raw ? JSON.parse(raw) : null;
+    } catch(e) {
+        console.error('Error reading order:', e);
+    }
 
     if (!pendingOrder) {
-        Utils.showAlert('No pending order found', 'danger');
-        setTimeout(() => {
-            window.location.href = 'index.html';
-        }, 2000);
+        alert('No pending order found. Going back.');
+        window.location.href = 'index.html';
         return;
     }
 
-    // Display order details
     displayOrderDetails();
-
-    // Load portfolio bar
     loadPortfolio();
 }
 
-// Display order details
 function displayOrderDetails() {
-    const currency    = Utils.getCurrency();
-    const order       = pendingOrder;
-    const priceDiff   = Math.abs(order.price - order.openPrice);
+    const currency     = Utils.getCurrency();
+    const order        = pendingOrder;
+    const priceDiff    = Math.abs(order.price - order.openPrice);
     const priceChanged = priceDiff > 2.0;
-    const total       = order.quantity * order.price;
+    const total        = order.quantity * order.price;
 
-    // Fill in details
     document.getElementById('confirmSymbol').textContent =
         order.symbol;
 
@@ -52,32 +50,28 @@ function displayOrderDetails() {
     document.getElementById('confirmTotal').textContent =
         Utils.formatPrice(total, currency);
 
-    // Show price changed warning
     if (priceChanged) {
         document.getElementById('priceChangedAlert')
             .classList.add('show');
     }
 
-    // Style confirm button
     const confirmBtn = document.getElementById('confirmBtn');
     if (order.type === 'BUY') {
-        confirmBtn.className = 'btn-confirm btn-confirm-buy';
+        confirmBtn.className   = 'btn-confirm btn-confirm-buy';
         confirmBtn.textContent = '✓ Confirm BUY Order';
     } else {
-        confirmBtn.className = 'btn-confirm btn-confirm-sell';
+        confirmBtn.className   = 'btn-confirm btn-confirm-sell';
         confirmBtn.textContent = '✓ Confirm SELL Order';
     }
 }
 
-// Confirm and place order
 function confirmOrder() {
     if (!pendingOrder) return;
 
-    const confirmBtn = document.getElementById('confirmBtn');
+    const confirmBtn       = document.getElementById('confirmBtn');
     confirmBtn.textContent = 'Placing Order...';
     confirmBtn.disabled    = true;
 
-    // Send order to backend
     fetch('http://localhost:8080/api/orders/place', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -91,11 +85,55 @@ function confirmOrder() {
     .then(res => res.json())
     .then(data => {
         if (data.success) {
-            // Clear pending order
-            Utils.removeLocal('pendingOrder');
-
-            // Show success
+            localStorage.removeItem('pendingOrder');
             showSuccess(data);
         } else {
             Utils.showAlert(data.message, 'danger');
-            confirmBtn.textContent = '✓ Confirm
+            confirmBtn.textContent = '✓ Confirm Order';
+            confirmBtn.disabled    = false;
+        }
+    })
+    .catch(() => {
+        Utils.showAlert('Connection error. Try again.', 'danger');
+        confirmBtn.textContent = '✓ Confirm Order';
+        confirmBtn.disabled    = false;
+    });
+}
+
+function showSuccess(data) {
+    const currency = Utils.getCurrency();
+    const order    = pendingOrder || {};
+    document.getElementById('successMessage').innerHTML = `
+        <strong>${order.type}</strong>
+        ${order.quantity} shares of
+        <strong>${order.symbol}</strong>
+        at ${Utils.formatPrice(data.currentPrice, currency)}<br>
+        <span style="color:var(--text-secondary);
+                     font-size:0.85rem;">
+            Remaining Balance:
+            ${Utils.formatPrice(data.balance, currency)}
+        </span>
+    `;
+    document.getElementById('successOverlay')
+        .classList.add('show');
+}
+
+function loadPortfolio() {
+    fetch('http://localhost:8080/api/portfolio/summary')
+        .then(res => res.json())
+        .then(data => {
+            const bar = document.getElementById('portfolioBar');
+            if (bar) {
+                bar.innerHTML = Components.portfolioBar(
+                    data.balance,
+                    data.portfolioValue,
+                    data.profitLoss
+                );
+            }
+        })
+        .catch(() => {});
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    initConfirmPage();
+});
