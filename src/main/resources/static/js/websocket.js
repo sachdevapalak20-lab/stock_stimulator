@@ -12,7 +12,7 @@ const WebSocketManager = {
     // Connect to backend
     connect() {
         try {
-            const wsUrl = 'ws://localhost:8080/ws';
+            const wsUrl = 'ws://localhost:8081/ws';
             this.socket = new WebSocket(wsUrl);
 
             // On connection open
