@@ -201,7 +201,7 @@ function hideStaleWarning() {
 
 // Load balance from backend
 function loadBalance() {
-    fetch('http://localhost:8080/api/portfolio/balance')
+    fetch('wss://stockstimulator-production.up.railway.app/ws/api/portfolio/balance')
         .then(res => res.json())
         .then(data => {
             balance = data.balance;
