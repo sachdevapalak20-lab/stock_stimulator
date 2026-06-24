@@ -100,7 +100,7 @@ function resetPortfolio() {
         return;
     }
 
-    fetch('http://localhost:8080/api/portfolio/reset', {
+    fetch('wss://stockstimulator-production.up.railway.app/ws/api/portfolio/reset', {
         method: 'POST'
     })
     .then(res => res.json())
@@ -118,7 +118,7 @@ function clearHistory() {
         return;
     }
 
-    fetch('http://localhost:8080/api/orders/clear', {
+    fetch('wss://stockstimulator-production.up.railway.app/ws/api/orders/clear', {
         method: 'DELETE'
     })
     .then(res => res.json())
