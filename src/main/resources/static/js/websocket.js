@@ -11,7 +11,7 @@ const WebSocketManager = {
 
     connect() {
         try {
-            this.socket = new WebSocket('ws://localhost:8080/ws');
+            this.socket = new WebSocket('wss://stockstimulator-production.up.railway.app/ws');
 
             this.socket.onopen = () => {
                 console.log('Connected!');
