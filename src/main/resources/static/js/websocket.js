@@ -1,115 +1,76 @@
 // ===== WEBSOCKET MANAGER =====
 
+
 const WebSocketManager = {
-
-    socket:           null,
-    isConnected:      false,
+    socket:            null,
+    isConnected:       false,
     reconnectAttempts: 0,
-    maxReconnects:    5,
-    reconnectDelay:   3000,
-    onPriceUpdate:    null,
+    maxReconnects:     5,
+    reconnectDelay:    3000,
+    onPriceUpdate:     null,
 
-    // Connect to backend
     connect() {
         try {
-            const wsUrl = 'ws://localhost:8080/ws';
-            this.socket = new WebSocket(wsUrl);
+            this.socket = new WebSocket('ws://localhost:8080/ws');
 
-            // On connection open
             this.socket.onopen = () => {
-                console.log('Connected to market');
-                this.isConnected      = true;
+                console.log('Connected!');
+                this.isConnected       = true;
                 this.reconnectAttempts = 0;
-                this.updateStatus(true);
+                const el = document.getElementById('connectionStatus');
+                if (el) el.classList.add('d-none');
             };
 
-            // On price update received
             this.socket.onmessage = (event) => {
                 try {
                     const prices = JSON.parse(event.data);
                     if (this.onPriceUpdate) {
                         this.onPriceUpdate(prices);
                     }
-                } catch (e) {
-                    console.error('Price parse error:', e);
+                } catch(e) {
+                    console.error('Parse error:', e);
                 }
             };
 
-            // On connection close
             this.socket.onclose = () => {
-                console.log('Disconnected from market');
+                console.log('Disconnected');
                 this.isConnected = false;
-                this.updateStatus(false);
                 this.reconnect();
             };
 
-            // On error
-            this.socket.onerror = (error) => {
-                console.error('WebSocket error:', error);
+            this.socket.onerror = (e) => {
+                console.error('WS Error:', e);
                 this.isConnected = false;
-                this.updateStatus(false);
             };
 
-        } catch (e) {
-            console.error('WebSocket connect error:', e);
+        } catch(e) {
+            console.error('Connect error:', e);
             this.reconnect();
         }
     },
 
-    // Auto reconnect
     reconnect() {
         if (this.reconnectAttempts >= this.maxReconnects) {
-            console.log('Max reconnect attempts reached');
-            this.showReconnectFailed();
+            const el = document.getElementById('connectionStatus');
+            if (el) {
+                el.classList.remove('d-none');
+                el.classList.remove('alert-warning');
+                el.classList.add('alert-danger');
+                el.innerHTML = `
+                    Connection failed.
+                    <button onclick="WebSocketManager.reconnectAttempts=0;
+                    WebSocketManager.connect()"
+                    class="btn btn-sm btn-danger ms-2">
+                    Retry</button>`;
+            }
             return;
         }
-
         this.reconnectAttempts++;
-        console.log(`Reconnecting... attempt ${this.reconnectAttempts}`);
-
-        setTimeout(() => {
-            this.connect();
-        }, this.reconnectDelay);
+        console.log('Reconnecting attempt ' + this.reconnectAttempts);
+        setTimeout(() => this.connect(), this.reconnectDelay);
     },
 
-    // Disconnect
     disconnect() {
-        if (this.socket) {
-            this.socket.close();
-        }
-    },
-
-    // Update connection status on UI
-    updateStatus(connected) {
-        const statusEl = document.getElementById('connectionStatus');
-        if (!statusEl) return;
-
-        if (connected) {
-            statusEl.classList.add('d-none');
-        } else {
-            statusEl.classList.remove('d-none');
-            statusEl.innerHTML = `
-                <i class="bi bi-wifi-off"></i>
-                Disconnected — Reconnecting...
-            `;
-        }
-    },
-
-    // Show reconnect failed message
-    showReconnectFailed() {
-        const statusEl = document.getElementById('connectionStatus');
-        if (!statusEl) return;
-
-        statusEl.classList.remove('d-none');
-        statusEl.classList.remove('alert-warning');
-        statusEl.classList.add('alert-danger');
-        statusEl.innerHTML = `
-            <i class="bi bi-x-circle"></i>
-            Connection failed.
-            <button onclick="WebSocketManager.connect()"
-                class="btn btn-sm btn-danger ms-2">
-                Retry
-            </button>
-        `;
+        if (this.socket) this.socket.close();
     }
 };
