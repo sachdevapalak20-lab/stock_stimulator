@@ -13,7 +13,10 @@ const Components = {
 
                 <!-- Brand -->
                 <a class="navbar-brand" href="index.html">
-                    📈 StockSim
+                    <img src="logo.png" 
+     alt="FEIN AI" 
+     style="height:35px; margin-right:8px;">
+StockSim
                 </a>
 
                 <!-- Mobile Toggle -->
