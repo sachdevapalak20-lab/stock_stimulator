@@ -58,12 +58,7 @@ StockSim
                     <!-- Right Side -->
                     <div class="d-flex align-items-center gap-3">
 
-                        <!-- Theme Toggle -->
-                        <button class="theme-toggle"
-                            id="themeToggle"
-                            onclick="ThemeManager.toggle()">
-                            🌙 Dark Mode
-                        </button>
+                      
 
                         <!-- User Badge -->
                         <div class="d-flex align-items-center gap-2">
