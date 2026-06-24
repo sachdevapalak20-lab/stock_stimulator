@@ -1,1 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockSim — Order History</title>
 
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Animate.css -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <style>
+        .history-card {
+            background:    var(--bg-card);
+            border:        1px solid var(--border-color);
+            border-radius: 20px;
+            padding:       24px;
+            box-shadow:    var(--shadow);
+        }
+
+        .order-badge-buy {
+            background:    #f0fdf4;
+            color:         #16a34a;
+            padding:       4px 12px;
+            border-radius: 20px;
+            font-size:     0.8rem;
+            font-weight:   700;
+        }
+
+        .order-badge-sell {
+            background:    #fef2f2;
+            color:         #dc2626;
+            padding:       4px 12px;
+            border-radius: 20px;
+            font-size:     0.8rem;
+            font-weight:   700;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding:    60px 20px;
+            color:      #6c757d;
+        }
+
+        .empty-icon {
+            font-size:     4rem;
+            margin-bottom: 16px;
+        }
+
+        .filter-tabs {
+            display:       flex;
+            gap:           8px;
+            margin-bottom: 20px;
+            flex-wrap:     wrap;
+        }
+
+        .filter-tab {
+            padding:       6px 16px;
+            border:        1px solid var(--border-color);
+            border-radius: 20px;
+            font-size:     0.85rem;
+            font-weight:   500;
+            color:         var(--text-secondary);
+            cursor:        pointer;
+            background:    var(--bg-secondary);
+            transition:    all 0.2s;
+        }
+
+        .filter-tab.active {
+            background:   #2563eb;
+            color:        white;
+            border-color: #2563eb;
+        }
+
+        .summary-strip {
+            display:       flex;
+            gap:           16px;
+            flex-wrap:     wrap;
+            margin-bottom: 24px;
+        }
+
+        .summary-chip {
+            background:    var(--bg-secondary);
+            border:        1px solid var(--border-color);
+            border-radius: 12px;
+            padding:       12px 20px;
+            flex:          1;
+            min-width:     120px;
+            text-align:    center;
+        }
+
+        .chip-value {
+            font-size:   1.3rem;
+            font-weight: 700;
+        }
+
+        .chip-label {
+            font-size:  0.8rem;
+            color:      var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        .btn-back {
+            background:    var(--bg-secondary);
+            border:        1px solid var(--border-color);
+            border-radius: 8px;
+            padding:       8px 16px;
+            font-size:     0.85rem;
+            font-weight:   500;
+            color:         var(--text-secondary);
+            cursor:        pointer;
+            transition:    all 0.2s;
+        }
+
+        .btn-back:hover {
+            background:   #eff6ff;
+            color:        #2563eb;
+            border-color: #2563eb;
+        }
+
+        .table th {
+            color:          #6c757d;
+            font-weight:    600;
+            font-size:      0.85rem;
+            text-transform: uppercase;
+        }
+
+        .category-badge {
+            font-size:      0.7rem;
+            font-weight:    600;
+            padding:        3px 8px;
+            border-radius:  20px;
+            text-transform: uppercase;
+        }
+
+        .badge-tech   { background:#eff6ff; color:#2563eb; }
+        .badge-ev     { background:#f0fdf4; color:#16a34a; }
+        .badge-indian { background:#fff7ed; color:#ea580c; }
+        .badge-stream { background:#fdf4ff; color:#9333ea; }
+        .badge-ecomm  { background:#fefce8; color:#ca8a04; }
+        .badge-other  { background:#f8f9fa; color:#6c757d; }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar placeholder -->
+    <div id="navbar"></div>
+
+    <!-- Portfolio Bar -->
+    <div id="portfolioBar"
+        style="background:#f8f9fa;
+               border-bottom:1px solid #e9ecef;
+               padding:10px 0;
+               font-size:0.9rem;">
+    </div>
+
+    <!-- Alert Container -->
+    <div id="alertContainer"
+        class="position-fixed top-0 end-0 p-3"
+        style="z-index:9999">
+    </div>
+
+    <!-- Main Content -->
+    <div class="container py-4">
+
+        <!-- Page Header -->
+        <div class="d-flex justify-content-between
+                    align-items-center mb-4">
+            <div>
+                <h2 style="font-weight:700; margin:0;">
+                    Order History
+                </h2>
+                <p style="color:#6c757d; margin:0;">
+                    All your trades in one place
+                </p>
+            </div>
+            <button class="btn-back"
+                onclick="window.location.href='index.html'">
+                ← Dashboard
+            </button>
+        </div>
+
+        <!-- Summary Strip -->
+        <div class="summary-strip">
+            <div class="summary-chip">
+                <div class="chip-value"
+                    id="totalOrders">0</div>
+                <div class="chip-label">Total Orders</div>
+            </div>
+            <div class="summary-chip">
+                <div class="chip-value"
+                    style="color:#16a34a;"
+                    id="totalBuy">0</div>
+                <div class="chip-label">Buy Orders</div>
+            </div>
+            <div class="summary-chip">
+                <div class="chip-value"
+                    style="color:#dc2626;"
+                    id="totalSell">0</div>
+                <div class="chip-label">Sell Orders</div>
+            </div>
+            <div class="summary-chip">
+                <div class="chip-value"
+                    style="color:#2563eb;"
+                    id="totalValue">$0</div>
+                <div class="chip-label">Total Value</div>
+            </div>
+        </div>
+
+        <!-- History Card -->
+        <div class="history-card">
+
+            <!-- Filter Tabs -->
+            <div class="filter-tabs">
+                <button class="filter-tab active"
+                    onclick="filterOrders('ALL', this)">
+                    All Orders
+                </button>
+                <button class="filter-tab"
+                    onclick="filterOrders('BUY', this)">
+                    Buy Only
+                </button>
+                <button class="filter-tab"
+                    onclick="filterOrders('SELL', this)">
+                    Sell Only
+                </button>
+            </div>
+
+            <!-- Orders Table -->
+            <div class="table-responsive"
+                id="tableContainer">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Stock</th>
+                            <th>Type</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                            <th>Category</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersBody">
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state"
+                id="emptyState"
+                style="display:none;">
+                <div class="empty-icon">📋</div>
+                <h5 style="font-weight:700;">
+                    No Orders Yet
+                </h5>
+                <p>Start trading to see your order history</p>
+                <button
+                    style="background:#16a34a;
+                           color:white;
+                           border:none;
+                           border-radius:8px;
+                           padding:8px 20px;
+                           font-weight:600;
+                           cursor:pointer;"
+                    onclick="window.location.href='index.html'">
+                    Go to Dashboard
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div id="footer"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/history.js"></script>
+
+    <script>
+        // Check login
+        if (!localStorage.getItem('user')) {
+            window.location.href = 'login.html';
+        }
+
+        // Load navbar
+        try {
+            document.getElementById('navbar').innerHTML =
+                Components.navbar('history');
+        } catch(e) {
+            console.error('Navbar error:', e);
+        }
+
+        // Load footer
+        try {
+            document.getElementById('footer').innerHTML =
+                Components.footer();
+        } catch(e) {
+            console.error('Footer error:', e);
+        }
+    </script>
+
+</body>
+</html>
