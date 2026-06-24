@@ -30,7 +30,7 @@ function loadUserInfo() {
 
 // Load portfolio summary
 function loadPortfolio() {
-    fetch('http://localhost:8080/api/portfolio/summary')
+    fetch('http://localhost:8081/api/portfolio/summary')
         .then(res => res.json())
         .then(data => {
             const currency = Utils.getCurrency();
@@ -77,7 +77,7 @@ function loadPortfolio() {
 
 // Load trading statistics
 function loadTradingStats() {
-    fetch('http://localhost:8080/api/orders/all')
+    fetch('http://localhost:8081/api/orders/all')
         .then(res => res.json())
         .then(orders => {
             const buyOrders  = orders.filter(o => o.type === 'BUY');
@@ -99,7 +99,7 @@ function loadTradingStats() {
 
 // Load current holdings
 function loadHoldings() {
-    fetch('http://localhost:8080/api/portfolio/holdings')
+    fetch('http://localhost:8081/api/portfolio/holdings')
         .then(res => res.json())
         .then(holdings => {
             const holdingsList = document.getElementById('holdingsList');
