@@ -22,16 +22,17 @@ const ThemeManager = {
     },
 
     // Update toggle button text
-    updateToggleButton(theme) {
-        const btn = document.getElementById('themeToggle');
-        if (btn) {
-            if (theme === 'dark') {
-                btn.innerHTML = '☀️ Light Mode';
-            } else {
-                btn.innerHTML = '🌙 Dark Mode';
-            }
+   
+      updateToggleButton(theme) {
+    const btn = document.getElementById('themeToggle');
+    if (btn) {
+        if (theme === 'dark') {
+            btn.innerHTML = '☀️';
+        } else {
+            btn.innerHTML = '🌙';
         }
-    },
+    }
+},
 
     // Initialize theme on page load
     init() {
