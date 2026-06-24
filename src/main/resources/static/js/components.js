@@ -14,9 +14,9 @@ const Components = {
                 <!-- Brand -->
                 <a class="navbar-brand" href="index.html">
                     <img src="logo.png" 
-     alt="FEIN AI" 
-     style="height:35px; margin-right:8px;">
-StockSim
+                         alt="FEIN AI"
+                         style="height:35px; margin-right:8px;">
+                    StockSim
                 </a>
 
                 <!-- Mobile Toggle -->
@@ -58,25 +58,44 @@ StockSim
                     <!-- Right Side -->
                     <div class="d-flex align-items-center gap-3">
 
-                      
+                        <!-- Dark Mode Icon Button -->
+                        <button
+                            id="themeToggle"
+                            onclick="ThemeManager.toggle()"
+                            style="background:    none;
+                                   border:        1px solid var(--border-color);
+                                   border-radius: 50%;
+                                   width:         38px;
+                                   height:        38px;
+                                   cursor:        pointer;
+                                   font-size:     1.1rem;
+                                   display:       flex;
+                                   align-items:   center;
+                                   justify-content: center;
+                                   transition:    all 0.2s;
+                                   color:         var(--text-primary);"
+                            title="Toggle Dark Mode">
+                            🌙
+                        </button>
 
                         <!-- User Badge -->
                         <div class="d-flex align-items-center gap-2">
                             <div style="
-                                width: 35px;
-                                height: 35px;
-                                border-radius: 50%;
-                                background: var(--primary);
-                                color: white;
-                                display: flex;
-                                align-items: center;
+                                width:           35px;
+                                height:          35px;
+                                border-radius:   50%;
+                                background:      #2563eb;
+                                color:           white;
+                                display:         flex;
+                                align-items:     center;
                                 justify-content: center;
-                                font-weight: 700;
-                                font-size: 0.85rem;
-                            ">
+                                font-weight:     700;
+                                font-size:       0.85rem;
+                                cursor:          pointer;"
+                                onclick="window.location.href='profile.html'">
                                 ${username.charAt(0).toUpperCase()}
                             </div>
-                            <span style="font-weight: 500; font-size: 0.9rem;">
+                            <span style="font-weight:500; font-size:0.9rem;">
                                 ${username}
                             </span>
                         </div>
@@ -105,7 +124,7 @@ StockSim
                 </span>
                 <span>
                     ${isProfit ? '📈' : '📉'} P&L:
-                    <strong class="${isProfit ? 'profit' : 'loss'}">
+                    <strong style="color:${isProfit ? '#16a34a' : '#dc2626'}">
                         ${isProfit ? '+' : ''}${Utils.formatPrice(profitLoss, currency)}
                     </strong>
                 </span>
@@ -116,7 +135,7 @@ StockSim
 
     // ===== STOCK CARD =====
     stockCard(symbol, price, prevPrice, category) {
-        const direction  =Utils.getPriceDirection(prevPrice, price);
+        const direction  = Utils.getPriceDirection(prevPrice, price);
         const change     = Utils.calcChangePercent(prevPrice, price);
         const currency   = Utils.getCurrency();
         const arrow      = direction === 'up' ? '▲' : direction === 'down' ? '▼' : '●';
@@ -129,7 +148,7 @@ StockSim
 
             <div class="d-flex justify-content-between align-items-start mb-2">
                 <span class="stock-symbol">${symbol}</span>
-                ${Utils.getCategoryBadge(category)}
+                <span class="category-badge badge-${category.toLowerCase()}">${category}</span>
             </div>
 
             <div class="stock-price ${colorClass}" id="price-${symbol}">
@@ -177,12 +196,12 @@ StockSim
     footer() {
         return `
         <footer style="
-            border-top: 1px solid var(--border-color);
-            padding: 20px 0;
-            margin-top: 60px;
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            text-align: center;
+            border-top:  1px solid var(--border-color);
+            padding:     20px 0;
+            margin-top:  60px;
+            color:       var(--text-secondary);
+            font-size:   0.85rem;
+            text-align:  center;
         ">
             <div class="container">
                 📈 StockSim — Stock Market Simulator
