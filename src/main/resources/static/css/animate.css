@@ -17,14 +17,14 @@
 /* Price number up */
 @keyframes priceUp {
     0%   { transform: translateY(0);    color: inherit; }
-    50%  { transform: translateY(-4px); color: #16a34a; }
+   50%  { transform: translateY(-6px); color: #16a34a; }
     100% { transform: translateY(0);    color: #16a34a; }
 }
 
 /* Price number down */
 @keyframes priceDown {
     0%   { transform: translateY(0);   color: inherit; }
-    50%  { transform: translateY(4px); color: #dc2626; }
+    50%  { transform: translateY(6px); color: #dc2626; }
     100% { transform: translateY(0);   color: #dc2626; }
 }
 
@@ -140,7 +140,7 @@
 }
 
 .hover-lift:hover {
-    transform:  translateY(-4px);
+transform: translateY(-6px);
     box-shadow: 0 8px 30px rgba(0,0,0,0.15);
 }
 
@@ -154,10 +154,9 @@
 .page-load-2 { animation: fadeInUp 0.4s ease 0.2s both; }
 .page-load-3 { animation: fadeInUp 0.4s ease 0.3s both; }
 .page-load-4 { animation: fadeInUp 0.4s ease 0.4s both; }
-.page-load-5 { animation: fadeInUp 0.4s ease 0.5s both; }
+.page-load-5 { animation: fadeInUp 0.5s ease 0.5s both; }
 
 /* ===== LIVE PULSE ===== */
-
 .live-pulse {
     animation: pulseGlow 2s infinite;
 }
