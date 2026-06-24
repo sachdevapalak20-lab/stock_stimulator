@@ -90,14 +90,21 @@ transform: translateY(-1px);
         }
 
         .summary-chip {
-            background:    var(--bg-secondary);
-            border:        1px solid var(--border-color);
-            border-radius: 12px;
-            padding:       12px 20px;
-            flex:          1;
-            min-width:     120px;
-            text-align:    center;
-        }
+background:    var(--bg-secondary);
+border:        1px solid var(--border-color);
+border-radius: 12px;
+padding:       12px 20px;
+flex:          1;
+min-width:     120px;
+text-align:    center;
+transition:    all 0.3s ease;
+}
+
+.summary-chip:hover {
+transform: translateY(-2px);
+box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+}
+
 
         .chip-value {
             font-size:   1.3rem;
