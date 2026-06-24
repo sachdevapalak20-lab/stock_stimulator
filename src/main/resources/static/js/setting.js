@@ -100,7 +100,7 @@ function resetPortfolio() {
         return;
     }
 
-    fetch('http://localhost:8080/api/portfolio/reset', {
+    fetch('http://localhost:8081/api/portfolio/reset', {
         method: 'POST'
     })
     .then(res => res.json())
@@ -118,7 +118,7 @@ function clearHistory() {
         return;
     }
 
-    fetch('http://localhost:8080/api/orders/clear', {
+    fetch('http://localhost:8081/api/orders/clear', {
         method: 'DELETE'
     })
     .then(res => res.json())
