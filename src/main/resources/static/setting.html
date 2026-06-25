@@ -104,13 +104,18 @@
 
         /* Theme Cards */
         .theme-option {
-            border:        2px solid var(--border-color);
-            border-radius: 12px;
-            padding:       16px;
-            cursor:        pointer;
-            transition:    all 0.2s;
-            text-align:    center;
-        }
+border:        2px solid var(--border-color);
+border-radius: 12px;
+padding:       16px;
+cursor:        pointer;
+transition:    all 0.3s ease;
+text-align:    center;
+}
+
+.theme-option:hover {
+transform: translateY(-2px);
+}
+
 
         .theme-option.selected {
             border-color: var(--primary);
