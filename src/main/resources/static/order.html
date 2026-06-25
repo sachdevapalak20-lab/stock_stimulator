@@ -87,16 +87,17 @@
         }
 
         .btn-place-order {
-            width:         100%;
-            padding:       14px;
-            border:        none;
-            border-radius: 12px;
-            font-size:     1.1rem;
-            font-weight:   700;
-            cursor:        pointer;
-            transition:    all 0.2s;
-            margin-top:    20px;
-        }
+width:         100%;
+padding:       14px;
+border:        none;
+border-radius: 12px;
+font-size:     1.1rem;
+font-weight:   700;
+cursor:        pointer;
+transition:    all 0.3s ease;
+margin-top:    20px;
+}
+
 
         .btn-place-buy {
             background: var(--success);
@@ -242,10 +243,12 @@
 
             <!-- Place Order Button -->
             <button class="btn-place-order btn-place-buy"
-                id="placeOrderBtn"
-                onclick="placeOrder()">
-                ▲ Place BUY Order
-            </button>
+                    id="placeOrderBtn"
+                    type="button"
+                    aria-label="Place stock order"
+                    onclick="placeOrder()">
+                ▲ Place BUY Order </button>
+
 
         </div>
     </div>
